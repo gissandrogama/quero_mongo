@@ -27,6 +27,7 @@ defmodule QueromongoApi.User do
     email_compare =
       Mongo.find(:mongo, "users", %{"email" => email})
       |> Enum.to_list()
+      |> IO.inspect()
       |> Enum.map(&Map.delete(&1, "_id"))
       |> Enum.map(& &1["email"])
       |> List.first()
@@ -55,22 +56,24 @@ defmodule QueromongoApi.User do
   end
 
   defp map_user_create(user) do
-
     id = user.inserted_id
 
-    user_db = Mongo.find_one(:mongo, "users", %{"_id" => id})
+    user_db =
+      Mongo.find_one(:mongo, "users", %{"_id" => id})
+      |> Enum.to_list()
+      |> Enum.map(
+        &%{
+          "id" => BSON.ObjectId.encode!(&1["_id"]),
+          "email" => &1["email"],
+          "password" => &1["password"]
+        }
+      )
 
-    user_db
-    |> Enum.to_list()
-    |> List.first()
-
-    user_map = %{"id" => BSON.ObjectId.encode!(user_db["_id"]), "email" => user_db["email"], "password" => user_db["password"]}
-
-    {:ok, user_map}
+    {:ok, user_db}
   end
 
   # def authenticate_user(email, password) do
-  #   Mongo.find(:mongo, "users", %{email: email})
+  #   user = Mongo.find(:mongo, "users", %{"email" => email}) |> Enum.to_list()
 
   #   case  do
   #     nil ->

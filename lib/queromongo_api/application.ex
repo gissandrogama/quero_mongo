@@ -19,8 +19,8 @@ defmodule QueromongoApi.Application do
        [
          name: :mongo,
          url: "mongodb+srv://cluster0.dbgv6.mongodb.net/<quero_db>",
-         username:  System.get_env("USER_MONGO"),
-         password: System.get_env("PASSWD_MONGO"),
+         username: System.get_env("USER_MONGO") || "gissandrogama",
+         password: System.get_env("PASSWD_MONGO") || "Ycterror18",
          pool_size: 10
        ]}
     ]
