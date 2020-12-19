@@ -1,4 +1,7 @@
 defmodule QueromongoApi.Users do
+  @moduledoc """
+  module has functions to create a user, validate, email, password, encrypt the password, water a user structure and authentication.
+  """
   def run(params) do
     params = validate_params(params)
 
