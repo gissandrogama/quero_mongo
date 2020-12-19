@@ -1,4 +1,4 @@
-defmodule QueromongoApi.User do
+defmodule QueromongoApi.Users do
   def run(params) do
     params = validate_params(params)
 
@@ -58,18 +58,19 @@ defmodule QueromongoApi.User do
   defp map_user_create(user) do
     id = user.inserted_id
 
-    user_db =
-      Mongo.find_one(:mongo, "users", %{"_id" => id})
-      |> Enum.to_list()
-      |> Enum.map(
-        &%{
-          "id" => BSON.ObjectId.encode!(&1["_id"]),
-          "email" => &1["email"],
-          "password" => &1["password"]
-        }
-      )
+    user_db = Mongo.find_one(:mongo, "users", %{"_id" => id})
 
-    {:ok, user_db}
+    user_db
+    |> Enum.to_list()
+    |> List.first()
+
+    user_map = %{
+      "id" => BSON.ObjectId.encode!(user_db["_id"]),
+      "email" => user_db["email"],
+      "password" => user_db["password"]
+    }
+
+    {:ok, user_map}
   end
 
   # def authenticate_user(email, password) do

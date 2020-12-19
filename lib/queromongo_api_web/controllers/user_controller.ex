@@ -1,12 +1,12 @@
 defmodule QueromongoApiWeb.UserController do
   use QueromongoApiWeb, :controller
 
-  alias QueromongoApi.User
+  alias QueromongoApi.Users
 
   def create(conn, %{"email" => email, "password" => password}) do
     params = %{email: email, password: password}
 
-    case User.run(params) do
+    case Users.run(params) do
       {:error, message} ->
         conn
         |> put_status(401)
