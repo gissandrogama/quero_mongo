@@ -22,9 +22,9 @@ defmodule QueromongoApi.Users do
       |> List.first()
 
     %{
-      "id" => BSON.ObjectId.encode!(user["_id"]),
-      "email" => user["email"],
-      "password" => user["password"]
+      id:  user["_id"],
+      email: user["email"],
+      password: user["password"]
     }
   end
 

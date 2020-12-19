@@ -25,6 +25,11 @@ config :queromongo_api, QueromongoApiWeb.Guardian,
   issuer: "queromongo_api",
   secret_key: "K91m8H8WRKxJXwyGE6zIPJMdNteh//yMyxj8DKCi+ccs2I1KlzEwfLT9zdBy7uQG"
 
+# Configures Guardian module and error handler
+config :queromongo_api, QueromongoApiWeb.AuthAccessPipeline,
+  module: QueromongoApiWeb.Guardian,
+  error_handler: QueromongoApiWeb.AuthErrorHandler
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

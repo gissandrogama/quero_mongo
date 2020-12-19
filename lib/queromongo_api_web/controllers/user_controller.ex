@@ -21,7 +21,7 @@ defmodule QueromongoApiWeb.UserController do
       {:error, _} ->
         conn
         |> put_status(401)
-        |> json(%{status: "unautheticated"})
+        |> json(%{status: "O email ou usuario inserido estão incorretos"})
     end
   end
 

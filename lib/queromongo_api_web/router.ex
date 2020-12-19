@@ -1,6 +1,11 @@
 defmodule QueromongoApiWeb.Router do
   use QueromongoApiWeb, :router
 
+  pipeline :api_as_user do
+    plug :accepts, ["json"]
+    plug QueromongoApiWeb.AuthAccessPipeline
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -9,10 +14,15 @@ defmodule QueromongoApiWeb.Router do
     pipe_through :api
 
     get "/courses", CoursesController, :index
-    get "/offers", OffersController, :index
     get "/users/:id", UserController, :show
     post "/users", UserController, :create
     post "/sign_in", UserController, :sign_in
+  end
+
+  scope "/api", QueromongoApiWeb do
+    pipe_through :api_as_user
+
+    get "/offers", OffersController, :index
   end
 
   # Enables LiveDashboard only for development
