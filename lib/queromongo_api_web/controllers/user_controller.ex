@@ -2,6 +2,28 @@ defmodule QueromongoApiWeb.UserController do
   use QueromongoApiWeb, :controller
 
   alias QueromongoApi.Users
+  alias QueromongoApiWeb.Guardian
+
+  def sign_in(conn, %{"email" => email, "password" => password}) do
+    case Users.authenticate_user(email, password) do
+      {:ok, user} ->
+        {:ok, token, _claims} = Guardian.encode_and_sign(user)
+
+        conn
+        |> json( %{
+          status: "ok",
+          data: %{
+            email: user.email,
+            token: token
+          }
+        })
+
+      {:error, _} ->
+        conn
+        |> put_status(401)
+        |> json(%{status: "unautheticated"})
+    end
+  end
 
   def create(conn, %{"email" => email, "password" => password}) do
     params = %{email: email, password: password}

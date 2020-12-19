@@ -1,5 +1,7 @@
 # QueromongoApi
 
+![Elixir CI](https://github.com/gissandrogama/quero_mongo/workflows/Elixir%20CI/badge.svg?branch=main)
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

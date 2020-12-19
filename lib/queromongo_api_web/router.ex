@@ -12,6 +12,7 @@ defmodule QueromongoApiWeb.Router do
     get "/offers", OffersController, :index
     post "/users", UserController, :create
     get "/users/:id", UserController, :show
+    post "/sign_in", UserController, :sign_in
   end
 
   # Enables LiveDashboard only for development

@@ -15,6 +15,19 @@ defmodule QueromongoApi.Users do
     end
   end
 
+  def get_user(id) do
+    user =
+      Mongo.find(:mongo, "users", %{"_id" => id})
+      |> Enum.to_list()
+      |> List.first()
+
+    %{
+      "id" => BSON.ObjectId.encode!(user["_id"]),
+      "email" => user["email"],
+      "password" => user["password"]
+    }
+  end
+
   def validate_params(params) do
     params = validate_email(params)
 
@@ -53,7 +66,7 @@ defmodule QueromongoApi.Users do
     end
   end
 
-  def hashing(password) do
+  defp hashing(password) do
     Argon2.add_hash(password)
   end
 
@@ -71,20 +84,28 @@ defmodule QueromongoApi.Users do
     {:ok, user_map}
   end
 
-  # def authenticate_user(email, password) do
-  #   user = Mongo.find(:mongo, "users", %{"email" => email}) |> Enum.to_list()
+  def authenticate_user(email, password) do
+    user =
+      Mongo.find(:mongo, "users", %{"email" => email})
+      |> Enum.to_list()
+      |> List.first()
 
-  #   case  do
-  #     nil ->
-  #       Argon2.no_user_verify()
-  #       {:error, :invalid_credentials}
+    case user do
+      nil ->
+        Argon2.no_user_verify()
+        {:error, :invalid_credentials}
 
-  #     user ->
-  #       if Argon2.verify_pass(password, user.password_hash) do
-  #         {:ok, user}
-  #       else
-  #         {:error, :invalid_credentials}
-  #       end
-  #   end
-  # end
+      user ->
+        if Argon2.verify_pass(password, user["password"]) do
+          user = %{
+            id: BSON.ObjectId.encode!(user["_id"]),
+            email: user["email"],
+            password: user["password"]
+          }
+          {:ok, user}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
+  end
 end

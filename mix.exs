@@ -43,7 +43,8 @@ defmodule QueromongoApi.MixProject do
       {:mongodb, ">= 0.0.0"},
       {:poolboy, ">= 0.0.0"},
       {:argon2_elixir, "~> 2.0"},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:guardian, "~> 2.0"}
     ]
   end
 

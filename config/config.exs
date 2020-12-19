@@ -20,6 +20,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Configures Guardian
+config :queromongo_api, QueromongoApiWeb.Guardian,
+  issuer: "queromongo_api",
+  secret_key: "K91m8H8WRKxJXwyGE6zIPJMdNteh//yMyxj8DKCi+ccs2I1KlzEwfLT9zdBy7uQG"
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
