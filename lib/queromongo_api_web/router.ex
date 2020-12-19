@@ -10,8 +10,8 @@ defmodule QueromongoApiWeb.Router do
 
     get "/courses", CoursesController, :index
     get "/offers", OffersController, :index
-    post "/users", UserController, :create
     get "/users/:id", UserController, :show
+    post "/users", UserController, :create
     post "/sign_in", UserController, :sign_in
   end
 
