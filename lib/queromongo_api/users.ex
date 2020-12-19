@@ -22,7 +22,7 @@ defmodule QueromongoApi.Users do
       |> List.first()
 
     %{
-      id:  user["_id"],
+      id: user["_id"],
       email: user["email"],
       password: user["password"]
     }
@@ -102,6 +102,7 @@ defmodule QueromongoApi.Users do
             email: user["email"],
             password: user["password"]
           }
+
           {:ok, user}
         else
           {:error, :invalid_credentials}

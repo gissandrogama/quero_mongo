@@ -10,7 +10,7 @@ defmodule QueromongoApiWeb.UserController do
         {:ok, token, _claims} = Guardian.encode_and_sign(user)
 
         conn
-        |> json( %{
+        |> json(%{
           status: "ok",
           data: %{
             email: user.email,
