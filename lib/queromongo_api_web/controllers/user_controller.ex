@@ -27,7 +27,11 @@ defmodule QueromongoApiWeb.UserController do
       |> Enum.to_list()
       |> List.first()
 
-    user_map = %{"id" => BSON.ObjectId.encode!(user["_id"]), "email" => user["email"], "password" => user["password"]}
+    user_map = %{
+      "id" => BSON.ObjectId.encode!(user["_id"]),
+      "email" => user["email"],
+      "password" => user["password"]
+    }
 
     conn
     |> json(user_map)
